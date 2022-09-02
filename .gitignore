@@ -1,2 +1,5 @@
 .swp*
 .python-version
+*.swp
+*.class
+*.pyc
