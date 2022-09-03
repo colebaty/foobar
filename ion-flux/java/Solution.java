@@ -1,6 +1,6 @@
-package Solution;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 class TreeNode {
     public int val;
@@ -15,7 +15,20 @@ class TreeNode {
 }
 
 class BinaryTree {
-    public static TreeNode BinaryTree(int depth)
+    public static void find(TreeNode node, int target, int parent, ArrayList<Integer> sol) {
+        if (node == null)
+            return;
+
+        if (node.val == target) {
+            sol.add(parent);
+        }
+        else {
+            find(node.left, target, node.val, sol);
+            find(node.right, target, node.val, sol);
+        }
+    }
+
+    public static TreeNode populate(int depth)
     {
         if (depth == 0)
             return new TreeNode(0);
@@ -52,20 +65,45 @@ class BinaryTree {
 
     }
 
-    public static void ioPrint(TreeNode node) {
+    public static void postOrderLabel(TreeNode node) {
         if (node == null)
             return;
-        ioPrint(node.left);
-        System.out.print(node.val + " ");
-        ioPrint(node.right);
+
+        postOrderLabel(node.left);
+        postOrderLabel(node.right);
+
+        node.val = nextLabel();
+
+    }
+
+
+    private static int labelStart = 1;
+    private static int nextLabel() {
+        return labelStart++;
     }
 }
 
 public class Solution {
     public static int[] solution(int h, int[] q) {
-        int[] sol = new int[]{1, 2, 3};
-        return sol;
-        
-    }
+        /*
+         * specs say 1 <= h <= 30
+         * tree built with 0 <= h <= 29
+         */
+        TreeNode root = BinaryTree.populate(h - 1);
 
+        BinaryTree.postOrderLabel(root);
+        
+        ArrayList<Integer> sol = new ArrayList<Integer>(q.length);
+        for (int i = 0; i < q.length; i++) {
+            BinaryTree.find(root, q[i], -1, sol);
+        }
+
+        int solArr[] = new int[sol.size()];
+        for (int i = 0; i < sol.size(); i++) {
+            solArr[i] = sol.get(i);
+        }
+
+        return solArr;
+
+    }
 }
