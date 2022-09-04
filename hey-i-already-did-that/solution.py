@@ -6,7 +6,7 @@ def converter(n, b):
     base_highest_power = 0
     base_10_sum = 0;
 
-    while (n // b > 0):
+    while float(n) / float(b) > 0:
         print("n: {0}".format(n))
         print("b: {0}".format(b))
         mod = n % b
