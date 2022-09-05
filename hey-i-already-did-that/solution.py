@@ -1,29 +1,47 @@
 from math import *
 
-# accept any number in any base and
-# convert to base 10, hex, octal, and binary
-def converter(n, b):
-    base_highest_power = 0
-    base_10_sum = 0;
-
+# accepts a decimal integer n and converts to given base b, 
+# padding leading zeroes until len(n) == k
+def convert(n, b, k):
+    z = list()
     while float(n) / float(b) > 0:
-        print("n: {0}".format(n))
-        print("b: {0}".format(b))
         mod = n % b
-        print("mod: {0}".format(mod))
-        add = int(mod * pow(b, base_highest_power))
-        print("add: {0}".format(add))
-        base_10_sum += add
-        print("base_10_sum: {0}".format(base_10_sum))
-        base_highest_power += 1
-        print("base_highest_power: {0}".format(base_highest_power))
+        print("mod: " + str(mod))
+        z.insert(0, str(mod))
+        print("z: " + str(z))
         n = n // b
-        print("n // b: {0}".format(n))
-        print("============")
-    
-    print("base_10_sum: {0}".format(base_10_sum))
+        print("n: " + str(n))
+        print("========")
 
+    while len(z) < k:
+        z.insert(0, '0')
+
+    print(''.join(z))
+
+cycle = dict()
+def cycling(z):
+    if not z in cycle:
+        cycle[z] = 1
+    elif z in cycle:
+        cycle[z] += 1
 
 def solution(n, b):
-    print("stub")
+    print(int(n, b))
+    k = len(n)
 
+    l = list();
+    for ch in n:
+        l.append(ch);
+
+    x = str()
+    y = str()
+    l.sort()
+    y = y.join(l)
+    l.reverse()
+    x = x.join(l)
+    print("x: " + x)
+    print("x_10: {0}".format(int(x, b)))
+    print("y: " + y)
+    print("y_10: {0}".format(int(y, b)))
+    z = int(x, b) - int(y, b)
+    print("z_10: {0}".format(z))
